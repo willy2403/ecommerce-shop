@@ -1,86 +1,27 @@
 import React, { useContext } from 'react'
-import IMG from "../../../images/img01.jpg"
-
+import {DataContext} from '../../../Context/Dataprovider'
+import { ItemList } from '../ItemList'
 
 const ItemListContainer = () => {
-    
+    const value = useContext(DataContext)
+    const [Products] = value.Products
     
   return (
     <>
         <h1 className='title'>Productos</h1>
          <div className='productos'>
-            <div className="producto">
-            <a href="#">
-            <div className='producto__img'>
-                <img src={IMG} alt="" />
-            </div>
-            </a>
-                <div className='producto__footer'>
-                    <h1> Title </h1>
-                    <p>Categoria</p>
-                    <p className='price'>$17000</p>
-                </div>
-                <div className='buttom'>
-                    <button className='btn'>Añadir al carrito</button>            
-                        <div>
-                            <a href="#"className='btn'>Vista</a>
-                        </div>
-                </div>
-                </div>
-                <div className="producto">
-            <a href="#">
-            <div className='producto__img'>
-                <img src={IMG} alt="" />
-            </div>
-            </a>
-                <div className='producto__footer'>
-                    <h1> Title </h1>
-                    <p>Categoria</p>
-                    <p className='price'>$17000</p>
-                </div>
-                <div className='buttom'>
-                    <button className='btn'>Añadir al carrito</button>            
-                        <div>
-                            <a href="#"className='btn'>Vista</a>
-                        </div>
-                </div>
-                </div>
-                <div className="producto">
-            <a href="#">
-            <div className='producto__img'>
-                <img src={IMG} alt="" />
-            </div>
-            </a>
-                <div className='producto__footer'>
-                    <h1> Title </h1>
-                    <p>Categoria</p>
-                    <p className='price'>$17000</p>
-                </div>
-                <div className='buttom'>
-                    <button className='btn'>Añadir al carrito</button>            
-                        <div>
-                            <a href="#"className='btn'>Vista</a>
-                        </div>
-                </div>
-                </div>
-                <div className="producto">
-            <a href="#">
-            <div className='producto__img'>
-                <img src={IMG} alt="" />
-            </div>
-            </a>
-                <div className='producto__footer'>
-                    <h1> Title </h1>
-                    <p>Categoria</p>
-                    <p className='price'>$17000</p>
-                </div>
-                <div className='buttom'>
-                    <button className='btn'>Añadir al carrito</button>            
-                        <div>
-                            <a href="#"className='btn'>Vista</a>
-                        </div>
-                </div>
-                </div>
+            {
+                Products.map(Products=>(
+                    <ItemList key={Products.id} 
+                    id={Products.id}
+                    title={Products.title}
+                    price={Products.price}
+                    image={Products.image}
+                    category={Products.category}
+                    cantidad={Products.cantidad}                    
+                 />
+                ))      
+            }         
          </div>
     </>
   )

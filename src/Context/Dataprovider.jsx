@@ -1,13 +1,12 @@
 import { createContext, useState, useEffect, } from "react";
 import Data from '../Data'
-export const DataContext = createContext
+export const DataContext = createContext();
 
 
 
 export const DataProvider = (props) => {
     const [Products, setProducts] = useState([])
-
-
+   
     useEffect(() =>{
         const Products = Data.items
         if(Products){
@@ -28,4 +27,4 @@ export const DataProvider = (props) => {
         </DataContext.Provider>
     )
 }
-export default DataProvider
+export default DataProvider;
