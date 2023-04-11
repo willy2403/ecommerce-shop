@@ -1,6 +1,7 @@
 import React from 'react'
-import Portada from "../../../images/inicio.jpg"
+import Portada from "../../../../public/images/inicio.jpg"
 import { Link } from 'react-router-dom'
+
 const Home = () => {
   return (
     <div className='inicio'>

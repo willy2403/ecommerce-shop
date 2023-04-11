@@ -1,8 +1,17 @@
-import React from 'react'
-import Nike from "../../images/Nike.jpg"
+import React, { useContext } from 'react'
+import Nike from "../../../public/images/Nike.jpg"
 import { Link } from 'react-router-dom'
+import { DataContext } from '../../Context/Dataprovider'
 
 const Navbar = () => {
+    const value = useContext(DataContext);
+    const [Menu, SetMenu] = value.Menu;
+    const [Cart] = value.Cart;
+
+    const ToogleMenu = () =>{
+        SetMenu(!Menu)
+    }
+
   return (
     <header>
         <Link to="/inicio">
@@ -18,9 +27,9 @@ const Navbar = () => {
                     <Link to="/itenlist">Productos</Link>
                 </li>
             </ul>
-            <div className='cart'>
+            <div className='cart' onClick={ToogleMenu}>
                 <box-icon name="cart"></box-icon>
-                <span className='item__total'>3</span>
+                <span className='item__total'>{Cart.length}</span>
             </div>
        
     </header>
