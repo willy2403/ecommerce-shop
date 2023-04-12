@@ -1,24 +1,32 @@
 import { createContext, useState, useEffect, } from "react";
-import Data from '../Data'
+import db from "../../db/firebase-config"
+import { collection, getDoc, getDocs } from "firebase/firestore";
 export const DataContext = createContext();
 
 
 
 export const DataProvider = (props) => {
-    const [Products, setProducts] = useState([])
+    const [Products, setProducts] = useState([]);
+    const ProductsRef = collection(db,"Products");
     const [Menu,setMenu] = useState(false);
     const [Cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
 
-    useEffect(() =>{
-        const Products = Data.items
-        if(Products){
-            setProducts(Products)    
-        }else{
-            setProducts([])
-        }
-        
-    },[])
+    const getProducts = async () => {
+        const ProductsColletion = await getDocs(ProductsRef);
+        const Products = ProductsColletion.docs.map((doc) => ({...doc.data(), id: doc.id}));
+        setProducts(Products)
+       
+    };
+        useEffect(() =>{
+            const Products = ProductsRef.items
+            if(Products){
+                getProducts(Products)
+            }else{
+                getProducts([]);
+            }
+        },[]);
+
 
     const addCart = (id)=>{
         const check = Cart.every(item =>{

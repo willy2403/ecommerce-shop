@@ -2,42 +2,39 @@ import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../../Context/Dataprovider'
 import { useParams } from 'react-router-dom'
 import { ItemList } from '../Navbar/ItemList'
+import db from '../../../db/firebase-config'
+import { doc, getDoc } from "firebase/firestore";
+
 
 
 export const  ItemDetailContainer = () => {
      const value = useContext(DataContext);
      const [Products] = value.Products;
+     const [item,setItem] = useState([]);
      const addCart = value.addCart;
-     const [Detail, setDetail] = useState([])
-     const [url, setUrl]= useState(0);
-     const [images, setImages] = useState('');
-     const Params = useParams();
-    let item = 0;
+     const {id} = useParams();
+     let items = 0;
 
-
-    useEffect(() =>{
-        console.log('re render' , Params.id)
-        item=0;
-        Products.forEach(Products =>{
-            if(Products.id === parseInt(Params.id)){
-                setDetail(Products)
-                setUrl(0)
-            }
-        })
-    }, [Params.id, Products])
+    const getItem = async () =>{
+       const docRef = doc(db,"Products", id);
+       const docSnap = await getDoc(docRef);
+       if(docSnap.exists()){
+            setItem(docSnap.data());
+        }else{
+            console.log("No existe el producto");
+        }
+    };
 
     useEffect(() =>{
-        const values = `${Detail.img1}${url}${Detail.img2}`;
-        setImages(values) 
-    },[url, Params.id])
-
+        getItem();
+    }, [id]);
 
   return (
     <>
         {
             <div className="detalles">   
-                <h2>{Detail.title}</h2>
-                    <p className="price">${Detail.price}</p>
+                <h2>{Products.title}</h2>
+                    <p className="price">${Products.price}</p>
                 <div className="grid">
                      <p className="nuevo">Nuevo</p>
                     <div className="tamano">
@@ -54,8 +51,8 @@ export const  ItemDetailContainer = () => {
                         <p>Tamaño</p>
                     </div>
               </div>
-              <button onClick={() => addCart(Detail.id)}>Añadir al carrito</button>         
-                <img src={Detail.image} alt={Detail.title}/> 
+              <button onClick={() => addCart(Products.id)}>Añadir al carrito</button>         
+                <img src={Products.image} alt={Products.title}/> 
               <div className="description">
                 <p></p>
               </div><b>Description:</b> Suma más y más kilómetros con tus Zapatillas Nike, que aportan amortiguación y confort a cada paso que des. Su capellada transpirable y suela diseñada por computadora para una mejor tracción son ideales hasta para los corredores más exigentes.</div>
@@ -65,7 +62,7 @@ export const  ItemDetailContainer = () => {
             <div className='productos'>
             {
                 Products.map((Products)=>{
-                    if((item < 6)&&(Detail.category === Products.category)){
+                    if((items < 6)&&(Products.category === Products.category)){
                         return<ItemList 
                     key={Products.id} 
                     id={Products.id}
