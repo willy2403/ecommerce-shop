@@ -51,7 +51,7 @@ export const  ItemDetailContainer = () => {
                         <p>Tamaño</p>
                     </div>
               </div>
-              <button onClick={() => addCart(Products.id)}>Añadir al carrito</button>         
+              <button onClick={() => addCart(id)}>Añadir al carrito</button>         
                 <img src={Products.image} alt={Products.title}/> 
               <div className="description">
                 <p></p>
