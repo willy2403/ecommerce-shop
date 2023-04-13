@@ -33,8 +33,8 @@ export const  ItemDetailContainer = () => {
     <>
         {
             <div className="detalles">   
-                <h2>{Products.title}</h2>
-                    <p className="price">${Products.price}</p>
+                <h2>{item.title}</h2>
+                    <p className="price">${item.price}</p>
                 <div className="grid">
                      <p className="nuevo">Nuevo</p>
                     <div className="tamano">
@@ -52,7 +52,7 @@ export const  ItemDetailContainer = () => {
                     </div>
               </div>
               <button onClick={() => addCart(id)}>Añadir al carrito</button>         
-                <img src={Products.image} alt={Products.title}/> 
+                <img src={item.image} alt={item.title}/> 
               <div className="description">
                 <p></p>
               </div><b>Description:</b> Suma más y más kilómetros con tus Zapatillas Nike, que aportan amortiguación y confort a cada paso que des. Su capellada transpirable y suela diseñada por computadora para una mejor tracción son ideales hasta para los corredores más exigentes.</div>

@@ -316,6 +316,14 @@ header .cart span{
   background-color: #0f5c39;
   color: white;
 }
+.checkbox{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 12px ;
+  margin-bottom: 10px;
+  width: 300px;
+}
 
 /* ------- Detalles Productos --------- */
 

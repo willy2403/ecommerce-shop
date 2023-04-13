@@ -1,6 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import card from "../../../public/images/img03.jpg"
 import { DataContext } from '../../Context/Dataprovider'
+import {  TextField } from '@mui/material'
+import { addDoc, collection, getFirestore } from 'firebase/firestore'
+
 
 
 const CartWidget = () => {
@@ -8,7 +11,7 @@ const CartWidget = () => {
   const [Menu, SetMenu] = value.Menu;
   const [Cart, setCart] = value.Cart; 
   const [total] = value.total;
-    
+      
 
   const Tooglefalse = ()=>{
     SetMenu(false);
@@ -48,6 +51,23 @@ const CartWidget = () => {
         setCart([...Cart])
   }
 
+    const orden = {
+        buyer:{
+        nombre: '',
+        apellido: '',
+        email: '',
+        numero: ''},
+        items: Cart.map(Products => ({id: Products.id, title: Products.title, price: Products.price, cantidad: Products.cantidad})),
+        total: total,
+    }
+
+  const HandleClick = () =>{
+    const db = getFirestore();
+    const ordenColletion = collection(db, 'ordenes');
+    addDoc(ordenColletion, orden)
+    .then(({id}) => console.log(id))
+  }
+ 
 
     return (
     <div className={show1}>
@@ -89,9 +109,16 @@ const CartWidget = () => {
             }
             </div>
            
-            <div className="carrito__footer">
-                <h3>Total:${total}</h3>
-                <button className='btn'>Pagar</button>
+            <div className="carrito__footer">     
+                <div className='checkbox' > 
+                <TextField id="outlined-basic" label="Nombre" variant="outlined" value={orden.nombre} />
+                <TextField id="outlined-basic" label="Apellido" variant="outlined" value={orden.apellido}/>               
+                <TextField id="outlined-basic" label="Email" type="email" value={orden.email} ></TextField>
+                <TextField id="outlined-basic" label="Telefono" type="number" value={orden.numero}></TextField>   
+                </div>
+                <h3>Total:${total}</h3>                
+                <button className='btn' onClick={HandleClick}>Pagar</button>
+              
             </div>
         </div>
         

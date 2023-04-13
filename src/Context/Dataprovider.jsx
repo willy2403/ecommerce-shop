@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, } from "react";
 import db from "../../db/firebase-config"
-import { collection, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs } from "firebase/firestore";
 export const DataContext = createContext();
 
 
@@ -11,12 +11,11 @@ export const DataProvider = (props) => {
     const [Menu,setMenu] = useState(false);
     const [Cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
-
+  
     const getProducts = async () => {
         const ProductsColletion = await getDocs(ProductsRef);
         const Products = ProductsColletion.docs.map((doc) => ({...doc.data(), id: doc.id}));
-        setProducts(Products)
-       
+        setProducts(Products);
     };
         useEffect(() =>{
             const Products = ProductsRef.items
@@ -25,8 +24,7 @@ export const DataProvider = (props) => {
             }else{
                 getProducts([]);
             }
-        },[]);
-
+        },[]);  
 
     const addCart = (id)=>{
         const check = Cart.every(item =>{
@@ -64,12 +62,13 @@ export const DataProvider = (props) => {
         getTotal();
     }, [Cart])
 
+
     const value = {
         Products : [Products],
         Menu : [Menu, setMenu],
         addCart : addCart,
         Cart : [Cart, setCart],
-        total : [total, setTotal]
+        total : [total, setTotal],
     }
 
     return(
