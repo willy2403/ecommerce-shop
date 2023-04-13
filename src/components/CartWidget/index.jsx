@@ -11,7 +11,12 @@ const CartWidget = () => {
   const [Menu, SetMenu] = value.Menu;
   const [Cart, setCart] = value.Cart; 
   const [total] = value.total;
-      
+  const [cliente, setCliente] = useState({
+    nombre: '',
+    email: '',
+    emailConfirm: '',
+    telefono: '',
+})    
 
   const Tooglefalse = ()=>{
     SetMenu(false);
@@ -51,23 +56,19 @@ const CartWidget = () => {
         setCart([...Cart])
   }
 
-    const orden = {
-        buyer:{
-        nombre: '',
-        apellido: '',
-        email: '',
-        numero: ''},
-        items: Cart.map(Products => ({id: Products.id, title: Products.title, price: Products.price, cantidad: Products.cantidad})),
-        total: total,
-    }
-
+    
   const HandleClick = () =>{
+  
     const db = getFirestore();
     const ordenColletion = collection(db, 'ordenes');
     addDoc(ordenColletion, orden)
     .then(({id}) => console.log(id))
   }
- 
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setOrden((prevOrden) => ({...prevOrden, [name]: value}))
+}
 
     return (
     <div className={show1}>
@@ -111,10 +112,14 @@ const CartWidget = () => {
            
             <div className="carrito__footer">     
                 <div className='checkbox' > 
-                <TextField id="outlined-basic" label="Nombre" variant="outlined" value={orden.nombre} />
-                <TextField id="outlined-basic" label="Apellido" variant="outlined" value={orden.apellido}/>               
-                <TextField id="outlined-basic" label="Email" type="email" value={orden.email} ></TextField>
-                <TextField id="outlined-basic" label="Telefono" type="number" value={orden.numero}></TextField>   
+                <TextField id="outlined-basic" label="Nombre" variant="outlined" value={cliente.nombre}
+					onChange={handleChange}/>          
+                <TextField id="outlined-basic" label="Email" type="email" value={cliente.email}
+					onChange={handleChange}></TextField>
+                <TextField id="outlined-basic" label="emailConfirm" type="email" value={cliente.emailConfirm}
+				onChange={handleChange}></TextField>
+                <TextField id="outlined-basic" label="Telefono" type="number" value={cliente.telefono}
+				onChange={handleChange}></TextField>   
                 </div>
                 <h3>Total:${total}</h3>                
                 <button className='btn' onClick={HandleClick}>Pagar</button>
